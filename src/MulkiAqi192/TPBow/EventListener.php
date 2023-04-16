@@ -12,7 +12,11 @@ use pocketmine\event\entity\{EntityShootBowEvent, ProjectileHitBlockEvent, Proje
 class EventListener implements Listener {
 
 	public $player;
+	
 	private bool $projectile;
+	
+	public function __construct(){
+	}
 
 	public function onShoot(EntityShootBowEvent $event){
 		$entity = $event->getEntity();
