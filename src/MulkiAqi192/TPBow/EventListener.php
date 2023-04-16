@@ -20,6 +20,7 @@ class EventListener implements Listener {
 	}
 
 	public function onShoot(EntityShootBowEvent $event){
+		$this->plugin->getLogger()->info("Projectile launched");
 		$entity = $event->getEntity();
 		$projectile = $event->getProjectile();
 		$nbt = $event->getBow()->getNamedTag();
