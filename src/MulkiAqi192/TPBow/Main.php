@@ -13,7 +13,7 @@ class Main extends PluginBase {
 	}
 
 	private function registerCommands() {
-		$this->getServer()->getCommandMap()->register("tpbow", new GetBow($this));
+		$this->getServer()->getCommandMap()->register("TPBow", new GetBow($this));
 	}
 
 }
