@@ -12,15 +12,9 @@ use pocketmine\event\entity\{EntityShootBowEvent, ProjectileHitBlockEvent, Proje
 class EventListener implements Listener {
 
 	public $player;
-	private $plugin;
 	private bool $projectile;
 
-	public function __construct(Main $plugin){
-		$this->plugin = $plugin;
-	}
-
 	public function onShoot(EntityShootBowEvent $event){
-		$this->plugin->getLogger()->info("Projectile launched");
 		$entity = $event->getEntity();
 		$projectile = $event->getProjectile();
 		$nbt = $event->getBow()->getNamedTag();
