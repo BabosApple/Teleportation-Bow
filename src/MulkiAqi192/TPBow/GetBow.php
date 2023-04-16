@@ -7,6 +7,7 @@ use MulkiAqi192\TPBow\Main;
 use pocketmine\player\Player;
 use pocketmine\item\VanillaItems;
 use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\StringTag;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
@@ -32,8 +33,7 @@ class GetBow extends Command implements PluginOwned {
 		}
 		$bow = VanillaItems::BOW();
 		$nbt = $bow->getNamedTag();
-		$nbt->setTag("tpbow", $nbt);
-		$nbt->setString("tpbow", "tpbow_string");
+		$nbt->setTag("tpbow", new StringTag("tpbowstring"));
 		$bow->setNamedTag($nbt);
 		$bow->setCustomName(TextFormat::AQUA . "Teleportation Bow");
 		$sender->getInventory()->addItem($bow);
