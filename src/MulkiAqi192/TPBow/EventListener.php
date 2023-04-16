@@ -25,7 +25,6 @@ class EventListener implements Listener {
 		$nbt = $event->getBow()->getNamedTag();
 		if($nbt->getTag("tpbow")){
 			if($nbt->getString("tpbow")){
-				$this->player as $entity;
 				$this->projectile = true;
 			}
 		}
