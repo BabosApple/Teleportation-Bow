@@ -14,8 +14,8 @@ class EventListener implements Listener {
 	public $player;
 	private bool $projectile;
 
-	public function __construct(Main $plugin){
-		
+	public function __construct(){
+
 	}
 
 	public function onShoot(EntityShootBowEvent $event){
