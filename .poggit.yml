@@ -5,5 +5,5 @@ branches:
 projects:
   Teleportation-Bow:
     path: ""
-    icon: "icon.webp"
+    icon: "icon.png"
 ...
