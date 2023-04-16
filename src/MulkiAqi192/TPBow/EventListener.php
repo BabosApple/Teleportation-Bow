@@ -11,11 +11,11 @@ use pocketmine\event\entity\{EntityShootBowEvent, ProjectileHitBlockEvent, Proje
 
 class EventListener implements Listener {
 
-	public Player $player;
+	public $player;
 	
 	private bool $projectile;
 	
-	public function __construct(Player $player){
+	public function __construct(){
 		$this->player = $player;
 	}
 
@@ -25,6 +25,7 @@ class EventListener implements Listener {
 		$nbt = $event->getBow()->getNamedTag();
 		if($nbt->getTag("tpbow")){
 			if($nbt->getString("tpbow")){
+				$this->player = $entity;
 				$this->projectile = true;
 			}
 		}
