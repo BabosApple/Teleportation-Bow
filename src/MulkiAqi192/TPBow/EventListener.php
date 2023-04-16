@@ -2,6 +2,7 @@
 
 namespace MulkiAqi192\TPBow;
 
+use MulkiAqi192\TPBow\Main;
 use pocketmine\event\Listener;
 use pocketmine\player\Player;
 use pocketmine\entity\projectile\Arrow;
@@ -11,8 +12,11 @@ use pocketmine\event\entity\{EntityShootBowEvent, ProjectileHitBlockEvent, Proje
 class EventListener implements Listener {
 
 	public $player;
-
 	private bool $projectile;
+
+	public function __construct(Main $plugin){
+		$this->plugin = $plugin;
+	}
 
 	public function onShoot(EntityShootBowEvent $event){
 		$entity = $event->getEntity();
