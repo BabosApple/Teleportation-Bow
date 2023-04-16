@@ -5,4 +5,5 @@ branches:
 projects:
   Teleportation-Bow:
     path: ""
+    icon: "icon.png"
 ...
