@@ -3,11 +3,7 @@
 namespace MulkiAqi192\TPBow;
 
 use MulkiAqi192\TPBow\Main;
-
 use pocketmine\player\Player;
-use pocketmine\item\VanillaItems;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\StringTag;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
@@ -31,12 +27,7 @@ class GetBow extends Command implements PluginOwned {
 			$sender->sendMessage("You can only use this command in-game!");
 			return false;
 		}
-		$bow = VanillaItems::BOW();
-		$nbt = $bow->getNamedTag();
-		$nbt->setTag("tpbow", new StringTag("tpbowstring"));
-		$bow->setNamedTag($nbt);
-		$bow->setCustomName(TextFormat::AQUA . "Teleportation Bow");
-		$sender->getInventory()->addItem($bow);
+		$this->plugin->getBow($sender);
 		$sender->sendMessage(TextFormat::GREEN . "You've achieve your Teleport Bow!");
 		return true;
 	}

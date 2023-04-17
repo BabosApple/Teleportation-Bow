@@ -9,17 +9,20 @@ use pocketmine\event\entity\{EntityShootBowEvent, ProjectileHitBlockEvent, Proje
 
 class EventListener implements Listener {
 
-	private $arrow = [];
-	private $player;
+	private $player = [];
 
 	public function onShoot(EntityShootBowEvent $event){
 		$entity = $event->getEntity();
+		$name = $entity->getName();
 		$projectile = $event->getProjectile();
 		$nbt = $event->getBow()->getNamedTag();
 		if($nbt->getTag("tpbow")){
 			if($nbt->getString("tpbow")){
-				$this->player = $entity;
-				$this->arrow[$projectile->getNameTag()] = $projectile->getNameTag();
+				if(!isset($this->player[$name])){
+					$this->player[$name] = ['entity' => $entity, 'arrows' => []];
+				}
+				$this->player[$name]['entity'] = $entity;
+				$this->player[$name]['arrows'][] = $projectile;
 			}
 		}
 	}
@@ -30,20 +33,34 @@ class EventListener implements Listener {
 		$y = $entity->getPosition()->getY();
 		$z = $entity->getPosition()->getZ();
 		if($entity instanceof Arrow){
-			if(isset($this->arrow[$entity->getNameTag()])){
-				unset($this->arrow[$entity->getNameTag()]);
-				$this->player->teleport(new Vector3($x, $y, $z));
-         		$entity->close();
+			foreach($this->player as $player => $playerData){
+				if(in_array($entity, $playerData['arrows'])){
+					$index = array_search($entity, $playerData['arrows']);
+					if($index !== false){
+						unset($playerData['arrows'][$index]);
+						$playerData['entity']->teleport(new Vector3($x, $y, $z));
+						break;
+					}
+				}
 			}
+			$entity->close();
 		}
 	}
 	public function onHitProjectileEntity(ProjectileHitEntityEvent $event){
 		$entity = $event->getEntity();
 		$hit = $event->getEntityHit();
 		if($entity instanceof Arrow){
-			if(isset($this->arrow[$entity->getNameTag()])){
-				unset($this->arrow[$entity->getNameTag()]);
-				$this->player->teleport(new Vector3($hit->getPosition()->getX(), $hit->getPosition()->getY(), $hit->getPosition()->getZ()));
+			foreach($this->player as $player => $playerData){
+				if(in_array($entity, $playerData['arrows'])){
+					$index = array_search($entity, $playerData['arrows']);
+					if($index !== false){
+						if(!$playerData['entity']->getPosition()->distance($hit->getPosition()) <= 0){
+							unset($playerData['arrows'][$index]);
+							$playerData['entity']->teleport(new Vector3($hit->getPosition()->getX(), $hit->getPosition()->getY(), $hit->getPosition()->getZ()));
+							break;
+						}
+					}
+				}
 			}
 		}
 	}
