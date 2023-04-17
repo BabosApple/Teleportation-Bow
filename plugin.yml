@@ -2,7 +2,7 @@ name: TPBow
 main: MulkiAqi192\TPBow\Main
 author: MulkiAqi192
 api: 4.0.0
-version: 1.1
+version: 1.2
 
 permissions:
   tpbow.use:
