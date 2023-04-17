@@ -1,7 +1,5 @@
 <?php
-
 namespace MulkiAqi192\TPBow;
-
 use MulkiAqi192\TPBow\Main;
 use pocketmine\event\Listener;
 use pocketmine\player\Player;
@@ -11,8 +9,8 @@ use pocketmine\event\entity\{EntityShootBowEvent, ProjectileHitBlockEvent, Proje
 
 class EventListener implements Listener {
 
-	public $player;
-	private bool $projectile;
+	private $arrow = [];
+	private $player;
 
 	public function onShoot(EntityShootBowEvent $event){
 		$entity = $event->getEntity();
@@ -21,11 +19,10 @@ class EventListener implements Listener {
 		if($nbt->getTag("tpbow")){
 			if($nbt->getString("tpbow")){
 				$this->player = $entity;
-				$this->projectile = true;
+				$this->arrow[$projectile->getNameTag()] = $projectile->getNameTag();
 			}
 		}
 	}
-
 	public function onHitProjectileBlock(ProjectileHitBlockEvent $event){
 		$entity = $event->getEntity();
 		$block = $event->getBlockHit();
@@ -33,27 +30,21 @@ class EventListener implements Listener {
 		$y = $entity->getPosition()->getY();
 		$z = $entity->getPosition()->getZ();
 		if($entity instanceof Arrow){
-			if(isset($this->projectile)){
-				if($this->projectile === true){
-					$this->player->teleport(new Vector3($x, $y, $z));
-         			$entity->close();
-         			$this->projectile = false;
-				}
+			if(isset($this->arrow[$entity->getNameTag()])){
+				unset($this->arrow[$entity->getNameTag()]);
+				$this->player->teleport(new Vector3($x, $y, $z));
+         		$entity->close();
 			}
 		}
 	}
-
 	public function onHitProjectileEntity(ProjectileHitEntityEvent $event){
 		$entity = $event->getEntity();
 		$hit = $event->getEntityHit();
 		if($entity instanceof Arrow){
-			if(isset($this->projectile)){
-				if($this->projectile === true){
-					$this->player->teleport(new Vector3($hit->getPosition()->getX(), $hit->getPosition()->getY(), $hit->getPosition()->getZ()));
-					$this->projectile = false;
-				}
+			if(isset($this->arrow[$entity->getNameTag()])){
+				unset($this->arrow[$entity->getNameTag()]);
+				$this->player->teleport(new Vector3($hit->getPosition()->getX(), $hit->getPosition()->getY(), $hit->getPosition()->getZ()));
 			}
 		}
 	}
-
 }
