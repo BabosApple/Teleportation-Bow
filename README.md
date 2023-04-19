@@ -7,4 +7,4 @@ If you got any problems with the plugin, please make an issue on github page!
 # Video Review
 https://twitter.com/MatchaaMV/status/1647397005730398210
 # Additional Notes
-This project using ("bow") image are created by Moajang
+This project using ("bow") image are created by Mojang
