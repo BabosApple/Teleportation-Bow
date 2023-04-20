@@ -1,6 +1,6 @@
 <?php
 namespace MulkiAqi192\TPBow;
-use MulkiAqi192\TPBow\Main;
+
 use pocketmine\event\Listener;
 use pocketmine\player\Player;
 use pocketmine\entity\projectile\Arrow;
@@ -37,13 +37,14 @@ class EventListener implements Listener {
 				if(in_array($entity, $playerData['arrows'])){
 					$index = array_search($entity, $playerData['arrows']);
 					if($index !== false){
+						$entity->setSilent(true);
 						unset($playerData['arrows'][$index]);
 						$playerData['entity']->teleport(new Vector3($x, $y, $z));
 						break;
 					}
 				}
 			}
-			$entity->close();
+			$entity->flagForDespawn();
 		}
 	}
 	public function onHitProjectileEntity(ProjectileHitEntityEvent $event){
