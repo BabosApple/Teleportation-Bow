@@ -61,6 +61,7 @@ class EventListener implements Listener {
 					if($index !== false){
 						if(!$playerData['entity']->getPosition()->distance($hit->getPosition()) <= 0){
 							unset($playerData['arrows'][$index]);
+							$entity->setSilent(true);
 							$playerData['entity']->teleport(new Vector3($hit->getPosition()->getX(), $hit->getPosition()->getY(), $hit->getPosition()->getZ()));
 							break;
 						}
