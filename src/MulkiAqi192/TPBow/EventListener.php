@@ -6,6 +6,8 @@ use pocketmine\player\Player;
 use pocketmine\entity\projectile\Arrow;
 use pocketmine\math\Vector3;
 use pocketmine\event\entity\{EntityShootBowEvent, ProjectileHitBlockEvent, ProjectileHitEntityEvent};
+use pocketmine\scheduler\ClosureTask;
+use pocketmine\world\particle\FlameParticle;
 
 class EventListener implements Listener {
 
@@ -26,6 +28,7 @@ class EventListener implements Listener {
 			}
 		}
 	}
+
 	public function onHitProjectileBlock(ProjectileHitBlockEvent $event){
 		$entity = $event->getEntity();
 		$block = $event->getBlockHit();
@@ -37,16 +40,17 @@ class EventListener implements Listener {
 				if(in_array($entity, $playerData['arrows'])){
 					$index = array_search($entity, $playerData['arrows']);
 					if($index !== false){
-						$entity->setSilent(true);
 						unset($playerData['arrows'][$index]);
+						$entity->setSilent(true);
+						$entity->flagForDespawn();
 						$playerData['entity']->teleport(new Vector3($x, $y, $z));
 						break;
 					}
 				}
 			}
-			$entity->flagForDespawn();
 		}
 	}
+	
 	public function onHitProjectileEntity(ProjectileHitEntityEvent $event){
 		$entity = $event->getEntity();
 		$hit = $event->getEntityHit();
